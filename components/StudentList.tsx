@@ -1,61 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { StudentItem } from "./StudentItem";
+import { Student } from "@/types/student";
+import { useStudentContext } from "@/hooks/useStudentContext";
 
 export function StudentList() {
-  const [students, setStudents] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const storedStudents = localStorage.getItem("students");
-      if (storedStudents) {
-        return JSON.parse(storedStudents);
-      }
-    }
-    return [
-      { id: 1, name: "Lan", isPresent: true },
-      { id: 2, name: "Hùng", isPresent: false },
-      { id: 3, name: "Mai", isPresent: true },
-    ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
-
   const [name, setName] = useState("");
+  const context = useStudentContext();
+
+  const { students, addStudent, removeStudent, toggleStudent } = context;
 
   const handleAddStudent = () => {
-    if (!name.trim()) return;
-    setStudents([...students, { id: Date.now(), name, isPresent: false }]);
+    addStudent(name);
     setName("");
-  };
-
-  const handleRemoveStudent = (id: number) => {
-    const newStudents = students.filter((student: any) => student.id !== id);
-    setStudents(newStudents);
-  };
-
-  const handleToggleStudent = (id: number) => {
-    const newStudents = students.map((student: any) => {
-      if (student.id === id) {
-        return { ...student, isPresent: !student.isPresent };
-      }
-      return student;
-    });
-    setStudents(newStudents);
   };
 
   return (
     <div>
       <ul>
-        {students.map((student: any) => (
+        {students.map((student: Student) => (
           <StudentItem
             key={student.id}
             id={student.id}
             name={student.name}
             isPresent={student.isPresent}
-            onToggle={() => handleToggleStudent(student.id)}
-            onDelete={() => handleRemoveStudent(student.id)}
+            onToggle={() => toggleStudent(student.id)}
+            onDelete={() => removeStudent(student.id)}
           />
         ))}
       </ul>
