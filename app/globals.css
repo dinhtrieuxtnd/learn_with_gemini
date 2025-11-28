@@ -12,15 +12,42 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style cho từng dòng học sinh */
+.student-item {
+  display: flex; /* Xếp hàng ngang */
+  justify-content: space-between; /* Đẩy tên sang trái, nút sang phải */
+  align-items: center;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Bo tròn góc */
+  background-color: #f9f9f9;
+  cursor: pointer; 
+}
+
+/* Style cho nút Xóa */
+.delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #ff7875;
+}
+
+/* Khi có class .present thì chuyển nền sang màu xanh nhạt */
+.student-item.present {
+  background-color: #f6ffed;
+  border-color: #b7eb8f;
 }
