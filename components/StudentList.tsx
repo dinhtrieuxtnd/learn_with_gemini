@@ -5,9 +5,11 @@ import { StudentItem } from "./StudentItem";
 
 export function StudentList() {
   const [students, setStudents] = useState(() => {
-    const storedStudents = localStorage.getItem("students");
-    if (storedStudents) {
-      return JSON.parse(storedStudents);
+    if (typeof window !== 'undefined') {
+      const storedStudents = localStorage.getItem("students");
+      if (storedStudents) {
+        return JSON.parse(storedStudents);
+      }
     }
     return [
       { id: 1, name: "Lan", isPresent: true },
@@ -15,11 +17,11 @@ export function StudentList() {
       { id: 3, name: "Mai", isPresent: true },
     ];
   });
-  
+
   useEffect(() => {
     localStorage.setItem("students", JSON.stringify(students));
   }, [students]);
-  
+
   const [name, setName] = useState("");
 
   const handleAddStudent = () => {
